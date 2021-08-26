@@ -1,6 +1,6 @@
 # Learning project on React.js
 
-##[Vidly - React App for movies](https://reactjs.org/)
+## [Vidly - React App for movies](https://reactjs.org/)
 
 ### Using libs & tools
 
