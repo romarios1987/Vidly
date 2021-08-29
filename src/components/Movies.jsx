@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {getMovies} from "../services/fakeMovieService";
+import Pagination from "./Pagination";
+import {paginate} from "../utils/paginate";
 
 // import Like from "./UI/Like";
 
 class Movies extends Component {
     state = {
         movies: getMovies(),
-        liked: true
+        pageSize: 4,
+        currentPage: 1,
     }
 
     handleDelete = (movie) => {
@@ -23,9 +26,16 @@ class Movies extends Component {
         this.setState({movies})
     }
 
+    handlePageChange = (page) => {
+        this.setState({currentPage: page})
+    }
+
     render() {
-        const {movies} = this.state;
+        const {movies, pageSize, currentPage} = this.state;
         if (movies.length === 0) return <p>There are no movies in the database.</p>
+
+        const moviesPaginate = paginate(movies, currentPage, pageSize)
+
         return (
             <>
                 <p>Showing {movies.length} movies in database.</p>
@@ -41,7 +51,7 @@ class Movies extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {movies.map(movie => {
+                    {moviesPaginate.map(movie => {
                         const {_id, title, genre, numberInStock, dailyRentalRate, liked} = movie;
                         const likeIcon = liked ? 'fas' : 'far';
                         return (
@@ -51,7 +61,8 @@ class Movies extends Component {
                                 <td>{numberInStock}</td>
                                 <td>{dailyRentalRate}</td>
                                 <td>
-                                    <FontAwesomeIcon style={{ cursor: 'pointer'}} onClick={() => this.handleLike(movie)} icon={[likeIcon, 'heart']}/>
+                                    <FontAwesomeIcon style={{cursor: 'pointer'}} onClick={() => this.handleLike(movie)}
+                                                     icon={[likeIcon, 'heart']}/>
                                     {/*<Like/>*/}
                                 </td>
                                 <td>
@@ -64,6 +75,12 @@ class Movies extends Component {
                     })}
                     </tbody>
                 </table>
+                <Pagination
+                    itemsCount={movies.length}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    onPageChange={this.handlePageChange}
+                />
             </>
         );
     }
