@@ -10,11 +10,24 @@ const Pagination = ({itemsCount, pageSize, currentPage, onPageChange}) => {
     // console.log('round', Math.round(pagesCount))
     // console.log('ceil', Math.ceil(pagesCount))
     const pages = Array(pagesCount).fill(1).map((x, y) => x + y)
+
+
+
+    const testFunc = (pageNew) => {
+        let page = 'page-item';
+        if(pageNew === currentPage) {
+            page += ' active'
+        }
+        return page;
+    }
+
+
     return (
         <nav>
             <ul className="pagination">
                 {pages.map(page => (
-                    <li key={page} className={page === currentPage ? 'page-item active' : 'page-item'}>
+                    // <li key={page} className={page === currentPage ? 'page-item active' : 'page-item'}>
+                    <li key={page} className={testFunc(page)}>
                         <a className="page-link" href="/#" onClick={(e) => {
                             e.preventDefault();
                             onPageChange(page);

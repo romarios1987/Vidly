@@ -38,7 +38,7 @@ class Movies extends Component {
 
         return (
             <>
-                <p>Showing {movies.length} movies in database.</p>
+                <p><strong>Showing {movies.length} movies in database.</strong></p>
                 <table className="table table-bordered">
                     <thead>
                     <tr>
